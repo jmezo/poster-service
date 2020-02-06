@@ -25,7 +25,7 @@ public class UserImageService {
     public void storeImage(MultipartFile file, String username) {
         var post = userRepository.findFirstByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND ,"user not found"));
-        saveWithPost(file, post);
+        saveWithUser(file, post);
     }
 
     public UserImage getImage(Long id) {
@@ -33,7 +33,7 @@ public class UserImageService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "image not found"));
     }
 
-    UserImage saveWithPost(MultipartFile file, User user) {
+    UserImage saveWithUser(MultipartFile file, User user) {
         try {
             var image = new UserImage(file, user);
             return imageRepository.save(image);

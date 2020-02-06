@@ -19,7 +19,7 @@ public class UserResource {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDTO> save(@RequestBody UserCreateDTO dto) {
+    public ResponseEntity<UserDTO> save(@ModelAttribute UserCreateDTO dto) {
         return new ResponseEntity<>(
                 userService.save(dto),
                 HttpStatus.CREATED

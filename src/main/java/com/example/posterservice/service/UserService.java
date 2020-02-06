@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserImageService imageService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public UserDTO save(UserCreateDTO dto) {
@@ -34,6 +35,10 @@ public class UserService {
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setCreationDate(System.currentTimeMillis());
+
+        if(dto.getImage() != null) {
+            imageService.saveWithUser(dto.getImage(), user);
+        }
 
         user.setRole(Role.USER);
         var savedUser = userRepository.save(user);
