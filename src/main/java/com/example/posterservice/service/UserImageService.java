@@ -28,8 +28,11 @@ public class UserImageService {
         saveWithUser(file, post);
     }
 
-    public UserImage getImage(Long id) {
-        return imageRepository.findById(id)
+    public UserImage getImage(String username) {
+        long userId = userRepository.findFirstByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"))
+                .getId();
+        return imageRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "image not found"));
     }
 

@@ -65,4 +65,10 @@ public class UserService {
     public boolean checkUsernameExists(String username) {
         return userRepository.findFirstByUsername(username).orElse(null) != null;
     }
+
+    public boolean checkHasImage(String username) {
+        return userRepository.findFirstByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"))
+                .getImage() != null;
+    }
 }

@@ -36,6 +36,11 @@ public class UserResource {
         return userService.checkUsernameExists(username);
     }
 
+    @GetMapping("/checkImage/{username}")
+    public boolean checkImage(@PathVariable String username) {
+        return userService.checkHasImage(username);
+    }
+
     @GetMapping
     public List<UserDTO> findAll() {
         return userService.findALl();

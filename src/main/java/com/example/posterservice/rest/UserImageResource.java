@@ -23,9 +23,9 @@ public class UserImageResource {
 
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Resource> getImage(@PathVariable long id) {
-        var dbImage = imageService.getImage(id);
+    @GetMapping("{username}")
+    public ResponseEntity<Resource> getImage(@PathVariable String username) {
+        var dbImage = imageService.getImage(username);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(dbImage.getContentType()))
                 .body(new ByteArrayResource(dbImage.getImg()));
