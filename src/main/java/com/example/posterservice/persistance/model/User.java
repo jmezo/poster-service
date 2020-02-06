@@ -30,6 +30,9 @@ public class User implements UserDetails {
 
     private long CreationDate;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserImage image;
+
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Post> postsCreated;
 

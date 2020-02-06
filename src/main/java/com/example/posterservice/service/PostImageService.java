@@ -22,7 +22,8 @@ public class PostImageService {
     private final PostRepository postRepository;
 
     public void storeImage(MultipartFile file, long postId) {
-        var post = postRepository.findById(postId).orElseThrow(); // TODO error handling
+        var post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND ,"post not found"));
         saveWithPost(file, post);
     }
 
@@ -40,7 +41,7 @@ public class PostImageService {
             var image = new PostImage(file, post);
             return imageRepository.save(image);
         } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "image not good");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "image too large");
         }
     }
 
