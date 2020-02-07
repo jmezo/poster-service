@@ -3,6 +3,7 @@ package com.example.posterservice.service;
 
 import com.example.posterservice.persistance.model.DTO.UserCreateDTO;
 import com.example.posterservice.persistance.model.DTO.UserDTO;
+import com.example.posterservice.persistance.model.DTO.UserFollowDTO;
 import com.example.posterservice.persistance.model.Role;
 import com.example.posterservice.persistance.model.User;
 import com.example.posterservice.persistance.repository.UserRepository;
@@ -70,5 +71,20 @@ public class UserService {
         return userRepository.findFirstByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"))
                 .getImage() != null;
+    }
+
+    public List<String> getListOfFollowing(String username) {
+        return findByUsername(username).getFollowing().stream().map(User::getUsername).collect(Collectors.toList());
+    }
+
+    public void follow(String follower, String following) {
+        var followerUser = findByUsername(follower);
+        var followingUser = findByUsername(following);
+        if(!followerUser.getFollowing().contains(followingUser)) {
+            followerUser.addFollowing(followingUser);
+        } else {
+            followerUser.removeFollowing(followingUser);
+        }
+        userRepository.save(followerUser);
     }
 }

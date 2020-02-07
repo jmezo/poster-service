@@ -3,6 +3,7 @@ package com.example.posterservice.rest;
 
 import com.example.posterservice.persistance.model.DTO.UserCreateDTO;
 import com.example.posterservice.persistance.model.DTO.UserDTO;
+import com.example.posterservice.persistance.model.DTO.UserFollowDTO;
 import com.example.posterservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,15 @@ public class UserResource {
 //    public void update(@RequestBody User user) {
 //        userService.save(user);
 //    }
+    @GetMapping("following/{username}")
+    public List<String> getListOfFollowing(@PathVariable String username) {
+        return userService.getListOfFollowing(username);
+    }
+
+    @PutMapping("{follower}/follow/{following}")
+    public void follow(@PathVariable String follower, @PathVariable String following) {
+        userService.follow(follower, following);
+    }
 
     @DeleteMapping("{username}")
     public ResponseEntity<Long> delete(@PathVariable String username) {

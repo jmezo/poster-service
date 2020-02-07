@@ -49,9 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements R
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/checkUsername/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/checkImage/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/users/img/**").authenticated()
-                .antMatchers("/users", "/users/**").hasAnyAuthority(Role.ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/users/**").authenticated()
+                .antMatchers("/users", "/users/**").authenticated()
                 .antMatchers("/users/{username}").access("#username == authentication.name")
+                .antMatchers("/users/{username}/**").access("#username == authentication.name")
                 .anyRequest().authenticated()
                 .and().formLogin().permitAll()
                 .and().csrf().disable();
